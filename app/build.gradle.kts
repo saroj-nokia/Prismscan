@@ -9,11 +9,11 @@ plugins {
 }
 
 android {
-  namespace = "com.example"
+  namespace = "com.saroj.prismscan"
   compileSdk = 37
 
   defaultConfig {
-    applicationId = "com.aistudio.prismscan.qkxy"
+    applicationId = "com.saroj.prismscan"
     minSdk = 37
     targetSdk = 37
     versionCode = 1

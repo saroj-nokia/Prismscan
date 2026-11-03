@@ -2,6 +2,8 @@
 
 **PrismScan** is a high-performance, 100% offline native Android QR and barcode scanner built with Kotlin and Jetpack Compose. Built with Material 3 Expressive design, physics-driven spring animations, and zero-trust URL security checks.
 
+**Requires Android 17 (API 37). Older Android versions are not supported.**
+
 ---
 
 ## Features
@@ -45,11 +47,11 @@
 
 ### 🎨 Material 3 Expressive Design
 - **MaterialExpressiveTheme:** Powered by `MotionScheme.expressive()` for natural, physics-driven spring transitions.
-- **Dynamic Color (Material You):** Adapts to system wallpaper colors on Android 12+, with a vibrant Electric Indigo and Cyan fallback palette.
+- **Dynamic Color (Material You):** The whole UI follows the system wallpaper colors, in light and dark themes.
 - **Shape Morphing:** Floating scan button morphs between idle pill, scanning squircle, and success circle states.
 - **Adaptive Navigation Suite:** Responsive bottom navigation bar on handheld phones, automatically transforming into a Navigation Rail on tablets and foldables.
 - **Adaptive Layout:** Automatic List-Detail pane for history on large screens (tablets and Chromebooks).
-- **Monochrome Themed Icon:** Supports Android 13+ themed dynamic home screen launcher icons.
+- **Monochrome Themed Icon:** Supports themed dynamic home screen launcher icons.
 
 ---
 
@@ -69,8 +71,8 @@
 
 ### Prerequisites
 - JDK 17+
-- Android SDK 36 (Android 16 / 17 preview)
-- Gradle 8.11+ / AGP 9.1.1
+- Android SDK 37 (Android 17)
+- Gradle 9.3.1 (see `gradle/wrapper/gradle-wrapper.properties`) / AGP 9.1.1
 
 ### Build APK
 ```bash
