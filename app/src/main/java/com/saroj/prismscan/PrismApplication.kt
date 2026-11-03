@@ -30,7 +30,7 @@ class DefaultAppContainer(private val context: Context) : AppContainer {
             context.applicationContext,
             AppDatabase::class.java,
             "prism_scan.db"
-        ).fallbackToDestructiveMigration().build()
+        ).fallbackToDestructiveMigration(dropAllTables = true).build()
     }
 
     override val preferencesRepository: PreferencesRepository by lazy {
