@@ -78,7 +78,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
-import androidx.core.content.ContextCompat
 import com.example.domain.model.ParsedBarcode
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
@@ -98,13 +97,10 @@ fun ScannerScreen(
         viewModel.setContext(context)
     }
 
-    // Permission state
+    // Permission state - Android 17 native checkSelfPermission
     var hasCameraPermission by remember {
         mutableStateOf(
-            ContextCompat.checkSelfPermission(
-                context,
-                Manifest.permission.CAMERA
-            ) == PackageManager.PERMISSION_GRANTED
+            context.checkSelfPermission(Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED
         )
     }
     var hasRequestedPermissionOnce by remember { mutableStateOf(false) }
