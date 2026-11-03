@@ -83,3 +83,21 @@ gradle :app:assembleDebug
 ```bash
 gradle :app:testDebugUnitTest
 ```
+
+## CI (GitHub Actions)
+
+`.github/workflows/build.yml` runs the unit tests and builds a debug APK on every push to `main`, every pull request, and on manual runs. APKs are uploaded as workflow artifacts.
+
+The release APK is built only when these repository secrets exist (Settings > Secrets and variables > Actions):
+
+| Secret | Value |
+|---|---|
+| `KEYSTORE_BASE64` | `base64 -w0 my-upload-key.jks` (the key alias must be `upload`) |
+| `STORE_PASSWORD` | keystore password |
+| `KEY_PASSWORD` | key password |
+
+Create a keystore once with:
+```bash
+keytool -genkeypair -v -keystore my-upload-key.jks -alias upload -keyalg RSA -keysize 2048 -validity 10000
+```
+Keep `my-upload-key.jks` private and backed up. Losing it means you can never ship an update that installs over existing releases.
