@@ -21,6 +21,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
@@ -33,6 +34,7 @@ import java.util.concurrent.Executors
 fun CameraPreviewView(
     analyzer: BarcodeAnalyzer,
     torchEnabled: Boolean,
+    zoomRatio: Float,
     onZoomChanged: (Float) -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -41,7 +43,8 @@ fun CameraPreviewView(
 
     var cameraControl by remember { mutableStateOf<CameraControl?>(null) }
     var previewViewRef by remember { mutableStateOf<PreviewView?>(null) }
-    var currentZoom by remember { mutableFloatStateOf(1f) }
+    var maxZoom by remember { mutableFloatStateOf(8f) }
+    val latestZoom by rememberUpdatedState(zoomRatio)
 
     val cameraExecutor = remember { Executors.newSingleThreadExecutor() }
 
@@ -55,17 +58,20 @@ fun CameraPreviewView(
         cameraControl?.enableTorch(torchEnabled)
     }
 
+    // The ViewModel's zoomRatio is the single source of truth: the 1x/2x/4x pills and pinch both set it.
+    LaunchedEffect(zoomRatio, maxZoom, cameraControl) {
+        val z = zoomRatio.coerceIn(1f, maxZoom)
+        cameraControl?.setZoomRatio(z)
+        if (z != zoomRatio) onZoomChanged(z)
+    }
+
     Box(
         modifier = modifier
             .fillMaxSize()
             .pointerInput(Unit) {
                 detectTransformGestures { _, _, zoom, _ ->
-                    val newZoom = (currentZoom * zoom).coerceIn(1f, 8f)
-                    if (newZoom != currentZoom) {
-                        currentZoom = newZoom
-                        cameraControl?.setZoomRatio(newZoom)
-                        onZoomChanged(newZoom)
-                    }
+                    val newZoom = (latestZoom * zoom).coerceIn(1f, maxZoom)
+                    if (newZoom != latestZoom) onZoomChanged(newZoom)
                 }
             }
             .pointerInput(Unit) {
@@ -115,6 +121,7 @@ fun CameraPreviewView(
                             preview,
                             imageAnalysis
                         )
+                        camera.cameraInfo.zoomState.value?.maxZoomRatio?.let { maxZoom = minOf(it, 8f) }
                         cameraControl = camera.cameraControl
                     } catch (_: Exception) {
                         // Camera binding failure

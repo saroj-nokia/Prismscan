@@ -151,6 +151,7 @@ fun ScannerScreen(
             CameraPreviewView(
                 analyzer = viewModel.analyzer,
                 torchEnabled = uiState.torchEnabled,
+                zoomRatio = uiState.zoomRatio,
                 onZoomChanged = { viewModel.setZoom(it) }
             )
 
