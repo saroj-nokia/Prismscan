@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       # Release signing secrets (see README). Without them only the debug APK is built.
-      HAS_KEYSTORE: ${{ secrets.KEYSTORE_BASE64 != '' }}
+      HAS_KEYSTORE: ${{ secrets.OPENTUNER_KEYSTORE_B64 != 'true' }}
     steps:
       - uses: actions/checkout@v4
 
