@@ -1,0 +1,6 @@
+{
+  "name": "PrismScan",
+  "description": "High-performance native QR and barcode scanner with Material 3 Expressive UI, smart safety checks, and offline ML Kit scanning.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
